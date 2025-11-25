@@ -1,7 +1,7 @@
 from app.application.dtos import OnboardPayeeRequest, PayeeResponse
 from app.domain.events import PayeeOnboardedEvent
 from app.domain.model import Payee
-from app.domain.ports import EventPublisher, PayeeRepository, PSPClient
+from app.domain.ports import PublishPayeeOnboardedEvent, PayeeRepository, PSPClient
 
 
 class OnboardPayeeService:
@@ -9,11 +9,11 @@ class OnboardPayeeService:
         self,
         repository: PayeeRepository,
         psp_client: PSPClient,
-        event_publisher: EventPublisher,
+        publish_payee_onboarded_event: PublishPayeeOnboardedEvent,
     ):
         self.repository = repository
         self.psp_client = psp_client
-        self.event_publisher = event_publisher
+        self.publish_payee_onboarded_event = publish_payee_onboarded_event
     
     def execute(self, request: OnboardPayeeRequest) -> PayeeResponse:
         payee = Payee.create(
@@ -47,7 +47,7 @@ class OnboardPayeeService:
             psp_reference=psp_reference,
             timestamp=payee.updated_at,
         )
-        self.event_publisher.publish("payee-events", event)
+        self.publish_payee_onboarded_event.execute(event)
         
         return PayeeResponse(
             id=payee.id,

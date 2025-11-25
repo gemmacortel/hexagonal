@@ -4,7 +4,7 @@ from app.application.dtos import (
     OnboardPayeeRequest,
     PayeeResponse,
 )
-from app.application.onboard_payee_service import OnboardPayeeService
+from app.application.onboard_payee import OnboardPayeeService
 from app.domain.exceptions import DomainException
 from app.ui.rest.dependencies import get_onboard_payee_service
 

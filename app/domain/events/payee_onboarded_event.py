@@ -13,7 +13,7 @@ class PayeeOnboardedEvent(DomainEvent):
     email: str
     psp_reference: str
     timestamp: datetime
-    
+
     @classmethod
     def create(
         cls,
