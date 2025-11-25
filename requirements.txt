@@ -1,0 +1,14 @@
+# Core framework
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+
+# Data validation
+pydantic==2.5.3
+pydantic[email]==2.5.3
+
+# Optional: Production dependencies (uncomment as needed)
+# httpx==0.26.0  # For HTTP PSP client
+# google-cloud-pubsub==2.18.4  # For GCP Pub/Sub
+# sqlalchemy==2.0.25  # For database ORM
+# asyncpg==0.29.0  # For PostgreSQL async driver
+
