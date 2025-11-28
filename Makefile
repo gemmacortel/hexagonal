@@ -19,10 +19,15 @@ help:
 	@echo "  make docs       - Show API documentation URLs"
 	@echo "  make clean      - Remove cache files and build artifacts"
 	@echo ""
+	@echo "Testing:"
+	@echo "  make test           - Run all tests"
+	@echo "  make test-cov       - Run tests with coverage report"
+	@echo "  make test-unit      - Run only unit tests"
+	@echo "  make test-integration - Run only integration tests"
+	@echo ""
 	@echo "Advanced:"
 	@echo "  make venv       - Create virtual environment only"
 	@echo "  make install    - Install dependencies only"
-	@echo "  make test       - Run tests (placeholder)"
 	@echo "  make lint       - Run linting checks (placeholder)"
 	@echo "  make format     - Format code (placeholder)"
 	@echo ""
@@ -87,10 +92,30 @@ test-api:
 		-d '{"name":"Test User","email":"test@example.com","bank_account":"GB29NWBK60161331926819"}' \
 		| python -m json.tool
 
-# Placeholder for unit tests
+# Run all tests
 test:
-	@echo "🧪 Running tests..."
-	@echo "⚠️  No tests configured yet. Add pytest and test files to implement."
+	@echo "🧪 Running all tests..."
+	@$(PYTHON) -m pytest tests/ -v
+
+# Run tests with coverage
+test-cov:
+	@echo "🧪 Running tests with coverage..."
+	@$(PYTHON) -m pytest tests/ -v --cov=app --cov-report=term-missing --cov-report=html
+
+# Run only unit tests
+test-unit:
+	@echo "🧪 Running unit tests..."
+	@$(PYTHON) -m pytest tests/unit/ -v -m unit
+
+# Run only integration tests
+test-integration:
+	@echo "🧪 Running integration tests..."
+	@$(PYTHON) -m pytest tests/integration/ -v -m integration
+
+# Run tests in watch mode (requires pytest-watch)
+test-watch:
+	@echo "👀 Running tests in watch mode..."
+	@$(PYTHON) -m pytest_watch tests/
 
 # Placeholder for linting
 lint:

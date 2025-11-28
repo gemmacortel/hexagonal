@@ -148,10 +148,14 @@ The project includes a Makefile with convenient shortcuts:
 | `make run` | Run the application |
 | `make dev` | Run in development mode with auto-reload |
 | `make health` | Check if the service is running |
+| `make test` | Run all tests |
+| `make test-cov` | Run tests with coverage report |
+| `make test-unit` | Run unit tests only |
+| `make test-integration` | Run integration tests only |
+| `make test-architecture` | Run architecture compliance tests |
 | `make test-api` | Test the API with a sample request |
 | `make docs` | Show API documentation URLs |
 | `make clean` | Remove cache files and build artifacts |
-| `make test` | Run tests (placeholder for future implementation) |
 | `make lint` | Run linting (placeholder for future implementation) |
 | `make format` | Format code (placeholder for future implementation) |
 
@@ -245,16 +249,66 @@ pip install -r requirements.txt
 
 ## Testing
 
-### Quick API Test
+> 📖 **Full Testing Guide**: See [TESTING.md](TESTING.md) for comprehensive testing documentation.
 
-Using Makefile:
+The project includes a comprehensive test suite organized by test type:
+
+**Run all tests:**
+```bash
+make test
+```
+
+**Run tests with coverage report:**
+```bash
+make test-cov
+```
+
+**Run specific test types:**
+```bash
+# Unit tests only (fast, isolated)
+make test-unit
+
+# Integration tests (may require external services)
+make test-integration
+
+# Architecture compliance tests
+make test-architecture
+```
+
+### Test Structure
+
+```
+tests/
+├── unit/               # Fast, isolated tests
+│   ├── domain/        # Domain entity tests
+│   └── application/   # Application service tests
+├── integration/        # Tests with external dependencies
+│   ├── database/      # Database integration tests
+│   ├── messaging/     # Event publishing tests
+│   ├── http/          # HTTP API tests
+│   └── repository/    # Repository implementation tests
+├── component/          # End-to-end component tests
+│   ├── api/           # API component tests
+│   ├── cli/           # CLI tests (if applicable)
+│   └── workers/       # Background worker tests
+└── architecture/       # Architecture compliance tests
+    └── test_hexagonal_rules.py
+```
+
+### Test Coverage
+
+After running `make test-cov`, view the coverage report:
+- Terminal: Displays immediately
+- HTML: Open `htmlcov/index.html` in your browser
+
+### Manual API Testing
+
+**Quick API test:**
 ```bash
 make test-api
 ```
 
-### Manual Testing with curl
-
-Create a payee:
+**Manual testing with curl:**
 ```bash
 curl -X POST http://localhost:8000/api/payees \
   -H "Content-Type: application/json" \
@@ -265,7 +319,7 @@ curl -X POST http://localhost:8000/api/payees \
   }'
 ```
 
-### Using the Interactive API Docs
+**Using the Interactive API Docs:**
 
 1. Navigate to http://localhost:8000/docs
 2. Click on the POST /api/payees endpoint
